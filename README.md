@@ -42,7 +42,7 @@ This project uses no complex build tools or backend frameworks. It runs purely i
 
 ### Firebase configuration for Vercel
 
-Set these environment variables in your Vercel project:
+Do not commit real Firebase secrets to GitHub. Copy [.env.example](.env.example) to your deployment environment and set these values in Vercel:
 
 - FIREBASE_API_KEY
 - FIREBASE_AUTH_DOMAIN

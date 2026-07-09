@@ -99,10 +99,13 @@ function getFirebaseConfigEndpointCandidates() {
   }
 
   if (typeof window !== "undefined") {
+    candidates.push(new URL("./firebase-config.json", window.location.href).toString());
+    candidates.push(new URL("/firebase-config.json", window.location.origin).toString());
     candidates.push(new URL("./api/firebase-config", window.location.href).toString());
     candidates.push(new URL("/api/firebase-config", window.location.origin).toString());
   }
 
+  candidates.push("/firebase-config.json");
   candidates.push("/api/firebase-config");
   return [...new Set(candidates)];
 }
