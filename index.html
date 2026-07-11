@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Incredible India Explorer - An interactive, animated digital tour of India's states, cuisines, festivals, dances, and vibrant culture.">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        .align-center { align-self: center; }
+        .fw-600 { font-weight: 600; }
+    </style>
     <title>Incredible India Explorer</title>
 
     <!-- Google Fonts -->
@@ -17,6 +23,10 @@
 
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .footer-credits-center { align-self: center; }
+        .font-weight-600 { font-weight: 600; }
+    </style>
 </head>
 
 <body>
@@ -47,9 +57,14 @@
                         <a href="wildlife.html" class="dropdown-item">Nature & Wildlife</a>
                         <a href="heritage.html" class="dropdown-item">Heritage Sites</a>
                         <a href="monuments.html" class="dropdown-item">Monuments</a>
+                        <a href="hidden-gems.html" class="dropdown-item">Hidden Gems</a>
+                        <a href="railways.html" class="dropdown-item">Railways Explorer</a>
+                        <a href="adventure.html" class="dropdown-item">Adventure</a>
                         <a href="personalities.html" class="dropdown-item">Famous Personalities</a>
                         <a href="spiritual.html" class="dropdown-item">Spiritual India</a>
                         <a href="arts-crafts.html" class="dropdown-item">Arts & Crafts</a>
+                        <a href="tribes.html" class="dropdown-item">Tribes</a>
+                        <a href="coin.html" class="dropdown-item">Evolution of Currency</a>
                         <a href="hill-stations.html" class="dropdown-item">Hill-stations</a>
                         <a href="lighthouses.html" class="dropdown-item">Lighthouses</a>
                         <a href="coastal-india.html" class="dropdown-item">Coastal India</a>
@@ -58,6 +73,9 @@
                         <a href="music.html" class="dropdown-item">Music</a>
                         <a href="astronomy.html" class="dropdown-item">Astronomy</a>
                         <a href="dance.html" class="dropdown-item">Dance</a>
+                        <a href="handloom/index.html" class="dropdown-item">Handloom</a>
+                        <a href="postal-stamps/index.html" class="dropdown-item">Postal Stamps</a>
+                        <a href="freedom-timeline/index.html" class="dropdown-item">Freedom Timeline</a>
                     </div>
                 </div>
                 <div class="nav-dropdown">
@@ -71,16 +89,18 @@
                 </div>
                 <button id="theme-toggle" class="btn-theme-toggle" aria-label="Toggle Dark/Light Mode" title="Toggle Light Mode">☀️</button>
                 <a href="premium.html" class="nav-link premium-link">★ Premium</a>
+                <a href="login.html" class="nav-link" id="link-login">Login</a>
+
             </nav>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main>
+    <main id="app-root">
 
         <!-- Hero Section -->
         <section id="home" class="hero-section scroll-section">
-            <video autoplay muted loop playsinline class="hero-video">
+            <video autoplay muted loop class="hero-video">
                 <source
                     src="https://assets.mixkit.co/videos/preview/mixkit-landscape-of-mountains-and-a-lake-at-sunset-31514-large.mp4"
                     type="video/mp4">
@@ -300,7 +320,7 @@
             </div>
             
         </div>
-        <div class="footer-credits" style="align-self: center;">
+        <div class="footer-credits footer-credits-center">
             <p>&copy; 2026 Incredible India Explorer. Created with Vanilla HTML, CSS & JavaScript.</p>
         </div>
     </footer>
@@ -340,7 +360,7 @@
                     <h2 class="story-title" id="state-story-title">Rajasthan</h2>
 
                     <p class="modal-capital-line">
-                        Capital: <span id="state-story-capital" class="gold" style="font-weight: 600;">Jaipur</span>
+                        Capital: <span id="state-story-capital" class="gold font-weight-600">Jaipur</span>
                     </p>
 
                     <!-- Saffron-white-green horizontal accent bar -->
@@ -444,6 +464,9 @@
     <script src="data.js"></script>
     <script src="chatbot-data.js"></script>
     <script src="app.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script src="router.js"></script>
 </body>
 
 </html>

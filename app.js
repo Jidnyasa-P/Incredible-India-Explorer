@@ -1,12 +1,13 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    INCREDIBLE INDIA EXPLORER - APPLICATION LOGIC
    Pure Vanilla JavaScript for dynamic content, modals, sliders, and games.
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('app:route-changed', () => {
     initNavigation();
     initThemeToggle();
     initRotatingText();
+    initRoadTripFlipCards();
 
     // Page detection routing
     const pathname = window.location.pathname;
@@ -37,6 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('âœ… Heritage page loaded successfully');
     } else if (pathname.includes('monuments.html')) {
         console.log('âœ… Monuments page loaded successfully');
+    } else if (pathname.includes('hidden-gems.html')) {
+        console.log('âœ… Hidden Gems page loaded successfully');
+    } else if (pathname.includes('railways.html')) {
+        console.log('âœ… Railways Explorer page loaded successfully');
+    } else if (pathname.includes('adventure.html')) {
+        console.log('Adventure page loaded successfully');
     } else {
         // Main landing page (index.html or root)
         initScrollEffects();
@@ -124,12 +131,60 @@ function initNavigation() {
         navMenu.classList.toggle('open');
     });
 
-    // Close mobile menu on nav link click
+    // Close mobile menu on nav link click (excluding dropdown toggles)
     navLinks.forEach(link => {
+        if (link.classList.contains('dropdown-toggle')) return;
         link.addEventListener('click', () => {
             menuToggle.classList.remove('open');
             navMenu.classList.remove('open');
         });
+    });
+
+    // Dropdown toggles toggle interaction logic
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const parentDropdown = toggle.closest('.nav-dropdown');
+            if (!parentDropdown) return;
+
+            const isOpen = parentDropdown.classList.contains('open');
+
+            // Close other dropdowns
+            document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+                if (dropdown !== parentDropdown) {
+                    dropdown.classList.remove('open');
+                    const otherToggle = dropdown.querySelector('.dropdown-toggle');
+                    if (otherToggle) {
+                        otherToggle.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+
+            // Toggle current dropdown state
+            if (isOpen) {
+                parentDropdown.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            } else {
+                parentDropdown.classList.add('open');
+                toggle.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    // Close open dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.nav-dropdown')) {
+            document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('open');
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
     });
 
     // Scroll to Top action
@@ -5037,4 +5092,35 @@ function initSpiritualCarousel() {
     prevBtn.addEventListener('click', goPrev);
 
     render();
+}
+
+// Register Service Worker for PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }, err => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+  });
+}
+
+/* ==========================================================================
+    Road trip card flip function , travel.html
+   ========================================================================== */  
+function initRoadTripFlipCards() {
+    document.querySelectorAll('.roadtrip-flip-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const flipCard = btn.closest('.roadtrip-card-flip');
+            flipCard.classList.toggle('flipped');
+        });
+    });
+
+    document.querySelectorAll('.roadtrip-card-back').forEach(back => {
+        back.addEventListener('click', () => {
+            back.closest('.roadtrip-card-flip').classList.remove('flipped');
+        });
+    });
 }

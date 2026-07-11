@@ -394,6 +394,7 @@
                         <a href="personalities.html" class="dropdown-item">Famous Personalities</a>
                         <a href="spiritual.html" class="dropdown-item">Spiritual India</a>
                         <a href="arts-crafts.html" class="dropdown-item" style="color: var(--saffron)">Arts & Crafts</a>
+                        <a href="tribes.html" class="dropdown-item">Tribes</a>
                     </div>
                 </div>
                 <div class="nav-dropdown">
@@ -407,11 +408,12 @@
                 </div>
                 <button id="theme-toggle" class="btn-theme-toggle" aria-label="Toggle Dark/Light Mode" title="Toggle Light Mode">☀️</button>
                 <a href="premium.html" class="nav-link" style="color: var(--gold); font-weight: bold;">★ Premium</a>
+                <a href="login.html" class="nav-link" id="link-login">Login</a>
             </nav>
         </div>
     </header>
 
-    <main style="padding-top: 80px;">
+    <main id="app-root" style="padding-top: 80px;">
         <section class="arts-hero scroll-section">
             <div class="section-container">
                 <span class="hero-tagline animate-fade-in" style="color: var(--gold);">🎨 Handicrafts & Handlooms</span>
@@ -618,6 +620,9 @@
         </div>
     </footer>
     <script src="app.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script src="router.js"></script>
 </body>
 </html>
 
