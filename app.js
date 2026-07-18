@@ -2623,9 +2623,10 @@ function initMusicPage() {
     });
 
     artistGrid.addEventListener('click', event => {
-        const playButton = event.target.closest('[data-music-play]');
+        const playButton = event.target.closest('button[data-music-play]');
         if (playButton) {
             event.stopPropagation();
+            event.preventDefault();
             const card = playButton.closest('[data-artist-id]');
             const artistId = card?.getAttribute('data-artist-id');
             if (!artistId) return;
@@ -2634,7 +2635,7 @@ function initMusicPage() {
             return;
         }
 
-        const detailsButton = event.target.closest('[data-music-details]');
+        const detailsButton = event.target.closest('button[data-music-details]');
         const card = event.target.closest('[data-artist-id]');
 
         if (detailsButton && card) {
