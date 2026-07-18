@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Trip Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1B1F3B; 
+      --surface: #242A57; 
+      --surface-2: #2E3568; 
+      --line: rgba(242, 238, 228, 0.14);
+      --marigold: #F5A300; 
+      --peacock: #16A398; 
+      --vermilion: #E1533D; 
+      --sand: #F2EEE4; 
+      --muted: #A9AFD9;
+    }
+    
+    body {
+      background: radial-gradient(120% 140% at 10% 0%, #232a54 0%, #1B1F3B 55%, #14172e 100%);
+      color: var(--sand); 
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      padding: 24px 20px 50px; 
+      min-height: 100vh; 
+      margin: 0;
+      box-sizing: border-box;
+    }
+    
+    * { box-sizing: border-box; }
+    
+    .eyebrow { 
+      font-family: 'IBM Plex Mono', monospace; 
+      font-size: 11px; 
+      letter-spacing: 0.16em; 
+      text-transform: uppercase; 
+      color: var(--muted); 
+      margin-bottom: 6px; 
+    }
+    
+    h1 { 
+      font-family: 'Fraunces', Georgia, serif; 
+      font-weight: 600; 
+      font-size: clamp(24px, 3.4vw, 34px); 
+      margin: 0 0 20px; 
+    }
+    
+    h1 em { font-style: italic; color: var(--marigold); font-weight: 500; }
+    
+    .layout { 
+      display: grid; 
+      grid-template-columns: 300px 1fr; 
+      gap: 20px; 
+      align-items: start; 
+    }
+    
+    @media (max-width: 900px) { 
+      .layout { grid-template-columns: 1fr; } 
+    }
+    
+    .panel { 
+      background: var(--surface); 
+      border: 1px solid var(--line); 
+      border-radius: 8px; 
+      padding: 18px 20px; 
+      margin-bottom: 16px; 
+    }
+    
+    .panel h3 { 
+      font-family: 'Fraunces', serif; 
+      font-size: 15.5px; 
+      margin: 0 0 12px; 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+    }
+    
+    .field { margin-bottom: 16px; }
+    
+    .field label { 
+      font-size: 11.5px; 
+      color: var(--muted); 
+      text-transform: uppercase; 
+      letter-spacing: 0.06em; 
+      display: block; 
+      margin-bottom: 7px; 
+    }
+    
+    .stepper { display: flex; align-items: center; gap: 10px; }
+    
+    .stepper button { 
+      width: 28px; 
+      height: 28px; 
+      border-radius: 6px; 
+      border: 1px solid var(--line); 
+      background: var(--surface-2); 
+      color: var(--sand); 
+      cursor: pointer; 
+    }
+    
+    .stepper span { 
+      font-family: 'IBM Plex Mono', monospace; 
+      font-size: 15px; 
+      min-width: 40px; 
+      text-align: center; 
+    }
+    
+    select { 
+      width: 100%; 
+      background: var(--surface-2); 
+      border: 1px solid var(--line); 
+      color: var(--sand); 
+      padding: 8px 10px; 
+      border-radius: 5px; 
+      font-size: 13px; 
+      font-family: inherit; 
+    }
+    
+    .pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    
+    .pill { 
+      font-size: 11.5px; 
+      padding: 5px 10px; 
+      border-radius: 16px; 
+      border: 1px solid var(--line); 
+      color: var(--muted); 
+      cursor: pointer; 
+      background: none; 
+    }
+    
+    .pill.active { 
+      background: var(--peacock); 
+      color: #0d1b1a; 
+      border-color: var(--peacock); 
+      font-weight: 600; 
+    }
+    
+    .gen-btn { 
+      width: 100%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+      background: var(--marigold); 
+      color: #1B1F3B; 
+      border: none; 
+      padding: 12px; 
+      border-radius: 7px; 
+      font-weight: 700; 
+      font-size: 13.5px; 
+      cursor: pointer; 
+    }
+    
+    .gen-btn:hover { background: #ffb521; }
+    
+    .regen-btn { 
+      width: 100%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 7px; 
+      background: none; 
+      border: 1px solid var(--line); 
+      color: var(--sand); 
+      padding: 9px; 
+      border-radius: 7px; 
+      font-size: 12.5px; 
+      cursor: pointer; 
+      margin-top: 8px; 
+    }
+    
+    .weight-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; }
+    .weight-name { width: 78px; flex-shrink: 0; color: var(--muted); }
+    .weight-track { flex: 1; height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+    .weight-fill { height: 100%; background: linear-gradient(90deg, var(--peacock), var(--marigold)); transition: width 0.3s ease; }
+    .weight-pct { width: 32px; text-align: right; font-family: 'IBM Plex Mono', monospace; color: var(--muted); font-size: 11px; }
+    
+    .learn-flash { 
+      font-size: 11.5px; 
+      color: var(--peacock); 
+      margin-top: 8px; 
+      display: flex; 
+      align-items: center; 
+      gap: 5px; 
+      opacity: 0; 
+      transition: opacity 0.3s ease;
+    }
+    
+    .learn-flash.visible { opacity: 1; }
+    
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+    .empty-state svg { color: var(--marigold); margin-bottom: 12px; }
+    
+    .day-card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; margin-bottom: 14px; }
+    .day-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .day-head h3 { font-family: 'Fraunces', serif; font-size: 16.5px; margin: 0; }
+    .day-region { font-size: 11.5px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+    
+    .switch-note { 
+      font-size: 11px; 
+      color: var(--vermilion); 
+      display: flex; 
+      align-items: center; 
+      gap: 4px; 
+      margin-bottom: 10px; 
+    }
+    
+    .food-tip { 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      font-size: 12px; 
+      color: var(--marigold); 
+      margin: 10px 0 2px; 
+      background: rgba(245, 163, 0, 0.1); 
+      padding: 7px 10px; 
+      border-radius: 5px; 
+    }
+    
+    .item-card { border-top: 1px solid var(--line); padding: 12px 0; }
+    .item-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .item-name { font-weight: 600; font-size: 14.5px; }
+    
+    .item-meta { 
+      font-size: 11.5px; 
+      color: var(--muted); 
+      display: flex; 
+      gap: 10px; 
+      margin-top: 3px; 
+      flex-wrap: wrap; 
+    }
+    
+    .item-meta span { display: flex; align-items: center; gap: 3px; }
+    .why-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .why-chip { font-size: 10px; background: var(--surface-2); color: var(--muted); padding: 3px 8px; border-radius: 10px; }
+    .item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    
+    .icon-btn { 
+      background: var(--surface-2); 
+      border: 1px solid var(--line); 
+      color: var(--muted); 
+      width: 28px; 
+      height: 28px; 
+      border-radius: 5px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      cursor: pointer; 
+    }
+    
+    .icon-btn:hover { color: var(--sand); }
+    .icon-btn.liked { color: var(--marigold); border-color: var(--marigold); }
+    
+    .action-row { display: flex; gap: 10px; margin-top: 16px; }
+    
+    .save-btn { 
+      display: flex; 
+      align-items: center; 
+      gap: 7px; 
+      background: var(--peacock); 
+      color: #0d1b1a; 
+      border: none; 
+      padding: 10px 16px; 
+      border-radius: 6px; 
+      font-weight: 600; 
+      font-size: 12.5px; 
+      cursor: pointer; 
+    }
+    
+    .saved-item { font-size: 12.5px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+    .saved-item:last-child { border-bottom: none; }
+    .saved-name { font-weight: 600; }
+    .saved-time { color: var(--muted); font-size: 11px; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <div class="eyebrow">AI Trip Planner</div>
+  <h1>Your itinerary, <em>generated.</em></h1>
+
+  <div class="layout">
+    <!-- Left Configuration Column -->
+    <div>
+      <div class="panel">
+        <h3>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          Preferences
+        </h3>
+        
+        <div class="field">
+          <label>Trip duration</label>
+          <div class="stepper">
+            <button id="duration-minus">−</button>
+            <span id="duration-val">4d</span>
+            <button id="duration-plus">+</button>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label>Categories you enjoy</label>
+          <div class="pill-row" id="categories-container"></div>
+        </div>
+        
+        <div class="field">
+          <label>Budget</label>
+          <select id="budget-select"></select>
+        </div>
+        
+        <div class="field">
+          <label>Pace</label>
+          <select id="pace-select"></select>
+        </div>
+        
+        <div class="field">
+          <label>Season</label>
+          <select id="season-select">
+            <option value="Winter">Winter</option>
+            <option value="Summer">Summer</option>
+          </select>
+        </div>
+        
+        <button class="gen-btn" id="generate-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <span id="gen-btn-text">Generate itinerary</span>
+        </button>
+        
+        <button class="regen-btn hidden" id="regen-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+          Regenerate with same preferences
+        </button>
+      </div>
+
+      <div class="panel">
+        <h3>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v12"/><path d="M8 10c0-1.5 1.5-2 4-2s4 .5 4 2-1.5 2-4 2-4 .5-4 2 1.5 2 4 2 4-.5 4-2"/></svg>
+          Your travel profile
+        </h3>
+        <div style="font-size: 11.5px; color: var(--muted); margin-bottom: 10px;">
+          Learned from bookmarks, likes & past trips
+        </div>
+        <div id="profile-container"></div>
+        <div class="learn-flash" id="learn-flash">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <span id="flash-text"></span>
+        </div>
+      </div>
+
+      <div class="panel hidden" id="saved-panel">
+        <h3>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Saved itineraries
+        </h3>
+        <div id="saved-container"></div>
+      </div>
+    </div>
+
+    <!-- Right Presentation Display -->
+    <div>
+      <div class="empty-state" id="empty-state">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <div>Set your preferences and generate a day-wise itinerary.</div>
+      </div>
+
+      <div id="itinerary-container"></div>
+
+      <div class="action-row hidden" id="action-row">
+        <button class="save-btn" id="save-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save itinerary
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const DESTINATIONS = [
+      { id: 1, name: "Amber Fort", state: "Rajasthan", category: "Heritage", budget: "Mid", season: "Winter", rating: 4.7, time: "3h" },
+      { id: 2, name: "City Palace, Jaipur", state: "Rajasthan", category: "Heritage", budget: "Mid", season: "Winter", rating: 4.5, time: "2h" },
+      { id: 3, name: "Jaisalmer Desert Safari", state: "Rajasthan", category: "Adventure", budget: "Mid", season: "Winter", rating: 4.6, time: "4h" },
+      { id: 4, name: "Lake Pichola, Udaipur", state: "Rajasthan", category: "Heritage", budget: "High", season: "Winter", rating: 4.6, time: "2h" },
+      { id: 5, name: "Munnar Tea Gardens", state: "Kerala", category: "Hill Station", budget: "Mid", season: "Winter", rating: 4.6, time: "3h" },
+      { id: 6, name: "Alleppey Backwaters", state: "Kerala", category: "Beach", budget: "Mid", season: "Winter", rating: 4.5, time: "5h" },
+      { id: 7, name: "Wayanad Wildlife Sanctuary", state: "Kerala", category: "Wildlife", budget: "Low", season: "Winter", rating: 4.3, time: "4h" },
+      { id: 8, name: "Manali Mall Road + Hadimba Temple", state: "Himachal Pradesh", category: "Hill Station", budget: "Mid", season: "Summer", rating: 4.4, time: "2h" },
+      { id: 9, name: "Solang Valley", state: "Himachal Pradesh", category: "Adventure", budget: "Mid", season: "Summer", rating: 4.5, time: "4h" },
+      { id: 10, name: "Baga Beach", state: "Goa", category: "Beach", budget: "Mid", season: "Winter", rating: 4.3, time: "3h" },
+      { id: 11, name: "Old Goa Churches", state: "Goa", category: "Heritage", budget: "Low", season: "Winter", rating: 4.4, time: "2h" },
+      { id: 12, name: "Rishikesh Rafting", state: "Uttarakhand", category: "Adventure", budget: "Low", season: "Winter", rating: 4.6, time: "3h" },
+      { id: 13, name: "Ram Jhula + Ganga Aarti", state: "Uttarakhand", category: "Spiritual", budget: "Low", season: "Winter", rating: 4.7, time: "2h" },
+      { id: 14, name: "Ranthambore Safari", state: "Rajasthan", category: "Wildlife", budget: "High", season: "Winter", rating: 4.5, time: "4h" },
+      { id: 15, name: "Varanasi Ghats", state: "Uttar Pradesh", category: "Spiritual", budget: "Low", season: "Winter", rating: 4.6, time: "3h" },
+      { id: 16, name: "Kasol Trek", state: "Himachal Pradesh", category: "Adventure", budget: "Low", season: "Summer", rating: 4.4, time: "5h" },
+    ];
+
+    const CATEGORIES = ["Heritage", "Hill Station", "Beach", "Wildlife", "Spiritual", "Adventure"];
+    const FOOD_BY_STATE = {
+      Rajasthan: "Try dal baati churma for dinner tonight.",
+      Kerala: "Don't miss a Kerala sadya thali for lunch.",
+      "Himachal Pradesh": "Warm up with siddu and local trout.",
+      Goa: "Fish curry rice at a beach shack is a must.",
+      Uttarakhand: "Grab kumaoni raita and bal mithai.",
+      "Uttar Pradesh": "Street-side kachori sabzi near the ghats.",
+    };
+    const BUDGET_ORDER = ["Low", "Mid", "High"];
+    const PACE = { Relaxed: 2, Balanced: 3, Packed: 4 };
+
+    let idc = 500;
+    const nid = () => `it-${idc++}`;
+
+    // Application State Engine
+    let prefs = { duration: 4, budget: "Mid", categories: ["Heritage", "Adventure"], pace: "Balanced", season: "Winter" };
+    let profile = { Heritage: 8, Beach: 5, Wildlife: 2, "Hill Station": 6, Spiritual: 3, Adventure: 4 };
+    let itinerary = null;
+    let saved = [];
+    let flashTimeout = null;
+
+    // Component Rendering / DOM Queries
+    const durationVal = document.getElementById("duration-val");
+    const categoriesContainer = document.getElementById("categories-container");
+    const budgetSelect = document.getElementById("budget-select");
+    const paceSelect = document.getElementById("pace-select");
+    const seasonSelect = document.getElementById("season-select");
+    const profileContainer = document.getElementById("profile-container");
+    const itineraryContainer = document.getElementById("itinerary-container");
+    const emptyState = document.getElementById("empty-state");
+    const actionRow = document.getElementById("action-row");
+    const savedPanel = document.getElementById("saved-panel");
+    const savedContainer = document.getElementById("saved-container");
+    const genBtnText = document.getElementById("gen-btn-text");
+    const regenBtn = document.getElementById("regen-btn");
+    const learnFlash = document.getElementById("learn-flash");
+    const flashText = document.getElementById("flash-text");
+
+    function initFormElements() {
+      BUDGET_ORDER.forEach(b => {
+        const opt = new Array(3);
+        budgetSelect.innerHTML += `<option value="${b}" ${b === prefs.budget ? 'selected' : ''}>${b}</option>`;
+      });
+      Object.keys(PACE).forEach(p => {
+        paceSelect.innerHTML += `<option value="${p}" ${p === prefs.pace ? 'selected' : ''}>${p}</option>`;
+      });
+      renderCategoriesSelector();
+      renderProfile();
+    }
+
+    function renderCategoriesSelector() {
+      categoriesContainer.innerHTML = CATEGORIES.map(c => {
+        const active = prefs.categories.includes(c) ? 'active' : '';
+        return `<button class="pill ${active}" data-category="${c}">${c}</button>`;
+      }).join('');
+    }
+
+    function renderProfile() {
+      const total = Object.values(profile).reduce((a, b) => a + b, 0) || 1;
+      const sortedWeights = Object.entries(profile)
+        .map(([k, v]) => [k, v / total])
+        .sort((a, b) => b[1] - a[1]);
+
+      profileContainer.innerHTML = sortedWeights.map(([cat, w]) => `
+        <div class="weight-row">
+          <div class="weight-name">${cat}</div>
+          <div class="weight-track"><div class="weight-fill" style="width: ${w * 100}%"></div></div>
+          <div class="weight-pct">${Math.round(w * 100)}%</div>
+        </div>
+      `).join('');
+    }
+
+    // Mathematical Content Scorer Engine
+    function scoreDest(d, usedCategories, weights) {
+      const catMatch = prefs.categories.includes(d.category) ? 1 : 0.15;
+      const budgetDist = Math.abs(BUDGET_ORDER.indexOf(d.budget) - BUDGET_ORDER.indexOf(prefs.budget));
+      const budgetMatch = budgetDist === 0 ? 1 : budgetDist === 1 ? 0.5 : 0.1;
+      const seasonMatch = d.season === prefs.season ? 1 : 0.4;
+      const learned = weights[d.category] || 0;
+      const repeatPenalty = Math.max(0, 1 - (usedCategories[d.category] || 0) * 0.35);
+      const ratingNorm = d.rating / 5;
+      return (catMatch * 0.32 + budgetMatch * 0.13 + seasonMatch * 0.1 + learned * 0.25 + ratingNorm * 0.2) * repeatPenalty;
+    }
+
+    function generateItinerary() {
+      const total = Object.values(profile).reduce((a, b) => a + b, 0) || 1;
+      const weights = {};
+      Object.entries(profile).forEach(([k, v]) => (weights[k] = v / total));
+
+      const usedCategories = {};
+      const itemsPerDay = PACE[prefs.pace];
+      const totalSlots = prefs.duration * itemsPerDay;
+
+      const pool = DESTINATIONS.map(d => ({ ...d }));
+      const selected = [];
+      
+      for (let i = 0; i < totalSlots; i++) {
+        const ranked = pool
+          .filter(d => !selected.find(s => s.id === d.id))
+          .map(d => ({ ...d, _score: scoreDest(d, usedCategories, weights) }))
+          .sort((a, b) => b._score - a._score);
+          
+        if (ranked.length === 0) break;
+        const pick = ranked[0];
+        selected.push(pick);
+        usedCategories[pick.category] = (usedCategories[pick.category] || 0) + 1;
+      }
+
+      const stateOrder = [];
+      selected.forEach(d => { if (!stateOrder.includes(d.state)) stateOrder.push(d.state); });
+      const clustered = stateOrder.flatMap(st => selected.filter(d => d.state === st));
+
+      const days = [];
+      for (let i = 0; i < prefs.duration; i++) {
+        const dayItems = clustered.slice(i * itemsPerDay, (i + 1) * itemsPerDay);
+        if (dayItems.length === 0) continue;
+        const majorityState = mostCommon(dayItems.map(d => d.state));
+        const stateSwitch = new Set(dayItems.map(d => d.state)).size > 1;
+        days.push({
+          id: nid(),
+          label: `Day ${i + 1}`,
+          state: majorityState,
+          items: dayItems.map(d => ({ ...d, _why: whyReasons(d, weights), liked: false })),
+          foodTip: FOOD_BY_STATE[majorityState],
+          stateSwitch,
+        });
+      }
+      itinerary = days;
+      renderItinerary();
+    }
+
+    function renderItinerary() {
+      if (!itinerary || itinerary.length === 0) {
+        emptyState.classList.remove("hidden");
+        itineraryContainer.innerHTML = "";
+        actionRow.classList.add("hidden");
+        regenBtn.classList.add("hidden");
+        genBtnText.innerText = "Generate itinerary";
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+      actionRow.classList.remove("hidden");
+      regenBtn.classList.remove("hidden");
+      genBtnText.innerText = "Generate again";
+
+      itineraryContainer.innerHTML = itinerary.map(day => `
+        <div class="day-card" data-day-id="${day.id}">
+          <div class="day-head">
+            <h3>${day.label}</h3>
+            <div class="day-region">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              ${day.state}
+            </div>
+          </div>
+          ${day.stateSwitch ? `
+            <div class="switch-note">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M18 8A5 5 0 0 1 8 13a5 5 0 0 0-2 4"/></svg>
+              This day spans more than one region — expect extra travel time.
+            </div>
+          ` : ''}
+          
+          ${day.items.map(item => `
+            <div class="item-card" data-item-id="${item.id}">
+              <div class="item-top">
+                <div>
+                  <div class="item-name">${item.name}</div>
+                  <div class="item-meta">
+                    <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${item.rating}</span>
+                    <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${item.time}</span>
+                    <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12"/><path d="M6 8h12"/><path d="M6 13h12"/><path d="M12 3v18"/><path d="M17 18h-4a4 4 0 0 1-4-4v-1"/></svg> ${item.budget}</span>
+                  </div>
+                  <div class="why-row">
+                    ${item._why.map(w => `<span class="why-chip">${w}</span>`).join('')}
+                  </div>
+                </div>
+                <div class="item-actions">
+                  <button class="icon-btn action-like ${item.liked ? 'liked' : ''}" data-cat="${item.category}" title="Like — improves future picks">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h3l7-7Z"/></svg>
+                  </button>
+                  <button class="icon-btn action-swap" title="Swap for alternative">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <button class="icon-btn action-remove" title="Remove">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+          
+          ${day.foodTip ? `
+            <div class="food-tip">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              ${day.foodTip}
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    function mostCommon(arr) {
+      const counts = {};
+      arr.forEach(v => (counts[v] = (counts[v] || 0) + 1));
+      return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+    }
+
+    function whyReasons(d, weights) {
+      const reasons = [];
+      if (prefs.categories.includes(d.category)) reasons.push(`Matches ${d.category} preference`);
+      if (d.budget === prefs.budget) reasons.push("Within budget");
+      if (d.rating >= 4.5) reasons.push("Highly rated");
+      if ((weights[d.category] || 0) > 0.2) reasons.push("Learned preference boost");
+      if (reasons.length === 0) reasons.push("Good fit for your trip");
+      return reasons;
+    }
+
+    // Interactive Action Handlers (Like, Swap, Remove)
+    function handleLike(dayId, itemId, category) {
+      profile[category] = (profile[category] || 0) + 2;
+      renderProfile();
+      
+      flashText.innerText = `Learned: you like ${category} more now`;
+      learnFlash.classList.add("visible");
+      clearTimeout(flashTimeout);
+      flashTimeout = setTimeout(() => learnFlash.classList.remove("visible"), 2500);
+
+      itinerary = itinerary.map(d => {
+        if (d.id !== dayId) return d;
+        return {
+          ...d,
+          items: d.items.map(item => item.id === itemId ? { ...item, liked: true } : item)
+        };
+      });
+      renderItinerary();
+    }
+
+    function handleRemove(dayId, itemId) {
+      itinerary = itinerary.map(d => {
+        if (d.id !== dayId) return d;
+        return { ...d, items: d.items.filter(item => item.id !== itemId) };
+      });
+      renderItinerary();
+    }
+
+    function handleSwap(dayId, itemId) {
+      const usedIds = itinerary.flatMap(d => d.items.map(i => i.id));
+      const day = itinerary.find(d => d.id === dayId);
+      const current = day.items.find(i => i.id === itemId);
+      
+      const usedCategories = {};
+      day.items.forEach(i => (usedCategories[i.category] = (usedCategories[i.category] || 0) + 1));
+      
+      const total = Object.values(profile).reduce((a, b) => a + b, 0) || 1;
+      const weights = {};
+      Object.entries(profile).forEach(([k, v]) => (weights[k] = v / total));
+
+      const candidates = DESTINATIONS
+        .filter(d => !usedIds.includes(d.id) && d.state === current.state)
+        .map(d => ({ ...d, _score: scoreDest(d, usedCategories, weights) }))
+        .sort((a, b) => b._score - a._score);
+
+      const replacement = candidates[0];
+      if (!replacement) return;
+
+      itinerary = itinerary.map(d => {
+        if (d.id !== dayId) return d;
+        return {
+          ...d,
+          items: d.items.map(i => i.id === itemId ? { ...replacement, _why: whyReasons(replacement, weights), liked: false } : i)
+        };
+      });
+      renderItinerary();
+    }
+
+    function saveActiveItinerary() {
+      if (!itinerary) return;
+      const categoriesText = prefs.categories.join(", ") || "Mixed";
+      const record = {
+        id: nid(),
+        name: `${prefs.duration}-day trip · ${categoriesText}`,
+        savedAt: "just now"
+      };
+      saved.unshift(record);
+      
+      savedPanel.classList.remove("hidden");
+      savedContainer.innerHTML = saved.map(s => `
+        <div class="saved-item">
+          <div class="saved-name">${s.name}</div>
+          <div class="saved-time">${s.savedAt}</div>
+        </div>
+      `).join('');
+    }
+
+    // DOM Event Delegation Listeners
+    document.getElementById("duration-minus").addEventListener("click", () => {
+      prefs.duration = Math.max(1, prefs.duration - 1);
+      durationVal.innerText = `${prefs.duration}d`;
+    });
+
+    document.getElementById("duration-plus").addEventListener("click", () => {
+      prefs.duration = Math.min(10, prefs.duration + 1);
+      durationVal.innerText = `${prefs.duration}d`;
+    });
+
+    categoriesContainer.addEventListener("click", (e) => {
+      const pill = e.target.closest(".pill");
+      if (!pill) return;
+      const cat = pill.dataset.category;
+      if (prefs.categories.includes(cat)) {
+        prefs.categories = prefs.categories.filter(x => x !== cat);
+      } else {
+        prefs.categories.push(cat);
+      }
+      renderCategoriesSelector();
+    });
+
+    budgetSelect.addEventListener("change", (e) => prefs.budget = e.target.value);
+    paceSelect.addEventListener("change", (e) => prefs.pace = e.target.value);
+    seasonSelect.addEventListener("change", (e) => prefs.season = e.target.value);
+
+    document.getElementById("generate-btn").addEventListener("click", generateItinerary);
+    regenBtn.addEventListener("click", generateItinerary);
+    document.getElementById("save-btn").addEventListener("click", saveActiveItinerary);
+
+    itineraryContainer.addEventListener("click", (e) => {
+      const button = e.target.closest(".icon-btn");
+      if (!button) return;
+      
+      const dayId = button.closest(".day-card").dataset.dayId;
+      const itemId = parseInt(button.closest(".item-card").dataset.itemId, 10);
+
+      if (button.classList.contains("action-like")) {
+        handleLike(dayId, itemId, button.dataset.cat);
+      } else if (button.classList.contains("action-swap")) {
+        handleSwap(dayId, itemId);
+      } else if (button.classList.contains("action-remove")) {
+        handleRemove(dayId, itemId);
+      }
+    });
+
+    // Initialization Context Trigger
+    initFormElements();
+  </script>
+</body>
+</html>
