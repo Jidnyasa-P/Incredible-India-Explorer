@@ -65,17 +65,22 @@ window.setupFocusTrap = function(modalElement) {
     };
 };
 
-/* Preload loading states module for SPA route transitions */
-(function preloadLoadingModule() {
-    var pre = (window.location.pathname.includes('/states/') ||
+/* Initialise the unified toast notification system */
+(function initToastSystem() {
+    var pathPrefix = (window.location.pathname.includes('/states/') ||
         window.location.pathname.includes('/traditional-games/') ||
         window.location.pathname.includes('/freedom-timeline/') ||
         window.location.pathname.includes('/postal-stamps/') ||
         window.location.pathname.includes('/handloom/')) ? '../' : '';
-    var s = document.createElement('script');
-    s.src = pre + 'js-modules/loading-states.js';
-    s.async = true;
-    document.head.appendChild(s);
+    var script = document.createElement('script');
+    script.src = pathPrefix + 'js-modules/toast-system.js';
+    script.async = true;
+    script.onload = function () {
+        if (window.ToastNotifier) {
+            window.dispatchEvent(new CustomEvent('toast:ready'));
+        }
+    };
+    document.head.appendChild(script);
 })();
 
 document.addEventListener('app:route-changed', () => {
@@ -5764,16 +5769,38 @@ function initPersonalitiesPage() {
                p.indexOf('adventure.html') !== -1) {
       console.log('Page loaded successfully');
 
-    } else {
-        toast.className = 'pwa-toast';
+/* ==========================================================================
+   UNIFIED TOAST NOTIFICATION SYSTEM
+   Backward-compatible wrapper that uses ToastNotifier when available,
+   and falls back to a simple inline implementation.
+   ========================================================================== */
+
+function showToast(message, type, duration) {
+    if (window.ToastNotifier) {
+        var fn = window.ToastNotifier[type] || window.ToastNotifier.info;
+        fn(message, duration);
+        return;
     }
-    
-    toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+    injectPWAToastStyles();
+    var toast = document.getElementById('pwa-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'pwa-toast';
+        toast.className = 'pwa-toast';
+        document.body.appendChild(toast);
+    }
+    var icon = 'ℹ️';
+    if (type === 'success') { icon = '✅'; toast.className = 'pwa-toast pwa-toast-success'; }
+    else if (type === 'warning') { icon = '⚠️'; toast.className = 'pwa-toast pwa-toast-warning'; }
+    else if (type === 'error') { icon = '❌'; toast.className = 'pwa-toast pwa-toast-error'; }
+    else { toast.className = 'pwa-toast'; }
+    toast.innerHTML = '<span>' + icon + '</span> <span>' + message + '</span>';
     toast.classList.add('show');
-    
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 4000);
+    setTimeout(function () { toast.classList.remove('show'); }, duration || 4000);
+}
+
+function showPWAToast(message, type) {
+    showToast(message, type || 'info');
 }
 
 const OFFLINE_QUEUE_KEY = 'offline-sync-queue';
@@ -5795,94 +5822,119 @@ function clearOfflineQueue() {
     localStorage.removeItem(OFFLINE_QUEUE_KEY);
 }
 // Register Service Worker for PWA
-(function registerServiceWorker() {
-    if (!('serviceWorker' in navigator)) return;
-
-    function detectPrefix() {
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        // 1. Try to detect root prefix from the script src attribute loading app.js
         const script = document.querySelector('script[src*="app.js"]');
+        let prefix = '';
         if (script) {
             const src = script.getAttribute('src');
             const match = src.match(/^(\.\.\/)+/);
-            if (match) return match[0];
-        }
-        const subdirPatterns = ['/states/', '/forts/', '/freedom-timeline/', '/handloom/',
-            '/kingdoms/', '/postal-stamps/', '/traditional-games/', '/toys/',
-            '/geological-wonders/', '/innovation-timeline/'];
-        const isSubdir = subdirPatterns.some(p => window.location.pathname.includes(p));
-        return isSubdir ? '../' : './';
-    }
-
-    let deferredPrompt = null;
-
-    window.addEventListener('beforeinstallprompt', (event) => {
-        event.preventDefault();
-        deferredPrompt = event;
-        showPWAToast('Install Incredible India Explorer for a better offline experience.', 'success');
-        const installBtn = document.getElementById('install-pwa-btn');
-        if (!installBtn) return;
-        installBtn.style.display = 'inline-flex';
-        installBtn.onclick = async () => {
-            installBtn.style.display = 'none';
-            deferredPrompt.prompt();
-            const choice = await deferredPrompt.userChoice;
-            if (choice.outcome === 'accepted') {
-                console.log('PWA installed successfully.');
+            if (match) {
+                prefix = match[0];
             }
-            deferredPrompt = null;
-        };
-    });
-
-    window.addEventListener('load', () => {
-        const prefix = detectPrefix();
+        }
+        
+        // 2. Fallback: Detect prefix based on URL path segment depth
+        if (!prefix) {
+            const pathname = window.location.pathname;
+            const isSubdir = pathname.includes('/states/') || 
+                            pathname.includes('/forts/') || 
+                            pathname.includes('/freedom-timeline/') || 
+                            pathname.includes('/handloom/') || 
+                            pathname.includes('/kingdoms/') || 
+                            pathname.includes('/postal-stamps/') || 
+                            pathname.includes('/traditional-games/') || 
+                            pathname.includes('/toys/') || 
+                            pathname.includes('/geological-wonders/') || 
+                            pathname.includes('/innovation-timeline/');
+            prefix = isSubdir ? '../' : './';
+        }
 
         navigator.serviceWorker.register(prefix + 'sw.js')
-            .then(async (registration) => {
-                console.log('ServiceWorker registration successful with scope:', registration.scope);
+          .then(async (registration) => {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
 
-                if ('SyncManager' in window) {
-                    try {
-                        await registration.sync.register('sync-chatbot-pending');
-                        console.log('Background Sync registered for chatbot-pending.');
+              if ('serviceWorker' in navigator && 'SyncManager' in window) {
+                  try {
+                       await registration.sync.register('sync-chatbot-pending');
+                       console.log('Background Sync registered.');
                     } catch (err) {
-                        console.error('Background Sync registration failed:', err);
+                       console.error('Background Sync registration failed:', err);
                     }
-                }
-
-                registration.addEventListener('updatefound', () => {
-                    const installingWorker = registration.installing;
-                    if (installingWorker) {
-                        installingWorker.addEventListener('statechange', () => {
-                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                showPWAToast('A newer version is available. Close and reopen to update.', 'info');
-                            }
-                        });
-                    }
-                });
+               }
             })
             .catch(err => {
-                console.error('ServiceWorker registration failed:', err);
-            });
+                console.log('ServiceWorker registration failed: ', err);
+           });
 
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (event) => {
+           event.preventDefault();
+
+           deferredPrompt = event;
+
+           showPWAToast(
+               'Install Incredible India Explorer for a better offline experience.',
+               'success'
+           );
+  
+           const installBtn = document.getElementById('install-pwa-btn');
+
+           if (!installBtn) return;
+
+           installBtn.style.display = 'inline-flex';
+
+           installBtn.onclick = async () => {
+              installBtn.style.display = 'none';
+
+               deferredPrompt.prompt();
+
+               const choice = await deferredPrompt.userChoice;
+
+               if (choice.outcome === 'accepted') {
+                   console.log('PWA installed successfully.');
+               } 
+
+              deferredPrompt = null;
+    };
+});
+
+        // 3. Listen to online/offline connection state changes to notify users
         window.addEventListener('online', async () => {
-            showPWAToast('Your internet connection has been restored. Welcome back online!', 'success');
-            const queue = getOfflineQueue();
-            if (queue.length > 0) {
-                console.log('Syncing ' + queue.length + ' offline item(s)...');
-                clearOfflineQueue();
-                showPWAToast('Offline changes synchronized successfully.', 'success');
-            }
-        });
+           showPWAToast(
+               'Your internet connection has been restored. Welcome back online!',
+               'success'
+       );
 
+           const queue = getOfflineQueue();
+
+           if (!queue.length) {
+               return;
+           }
+
+           if (queue.length > 0) {
+               console.log(`Syncing ${queue.length} offline item(s)...`);
+
+               // TODO: Send queued data to backend/API here
+
+               clearOfflineQueue();
+
+               showPWAToast('Offline changes synchronized successfully.', 'success');
+           }
+       });
         window.addEventListener('offline', () => {
             showPWAToast('Connection lost. You are now browsing in offline mode.', 'warning');
         });
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', (event) => {
+               if (event.data?.type === 'BACKGROUND_SYNC_COMPLETE') {
+                  showPWAToast(event.data.message, 'success');
+                }
+            });
 
-        navigator.serviceWorker.addEventListener('message', (event) => {
-            if (event.data && event.data.type === 'BACKGROUND_SYNC_COMPLETE') {
-                showPWAToast(event.data.message, 'success');
-            }
-        });
     });
-})();
+}
 
 })();
