@@ -1620,6 +1620,10 @@ button {
    ========================================================================== */
 
 @media (max-width: 1024px) {
+    .cuisine-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .section-header h2 {
         font-size: 2.4rem;
     }
@@ -10803,6 +10807,10 @@ button {
    ========================================================================== */
 
 @media (max-width: 1024px) {
+    .cuisine-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .section-header h2 {
         font-size: 2.4rem;
     }

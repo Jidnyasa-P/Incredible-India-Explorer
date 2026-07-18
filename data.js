@@ -485,6 +485,86 @@ const cuisinesData = [
     "state": "Meghalaya",
     "description": "A Khasi tribal rice dish cooked with red hill rice, ginger, black pepper, and herbs, often mixed with pork or chicken broth.",
     "image": "assets/jadoh.png"
+  },
+  {
+    "id": "c16",
+    "name": "Dal Baati Churma",
+    "region": "north",
+    "state": "Rajasthan",
+    "description": "Baked wheat rolls (baati) crushed and soaked in ghee, served with spicy lentils (dal) and a sweet crumbled wheat dessert (churma).",
+    "image": "assets/DalBaatiChurma.png"
+  },
+  {
+    "id": "c17",
+    "name": "Tunday Kabab",
+    "region": "north",
+    "state": "Uttar Pradesh",
+    "description": "Melt-in-the-mouth minced meat kababs from Lucknow, slow-cooked with over a dozen secret spices on a small skillet.",
+    "image": "assets/TundayKabab.png"
+  },
+  {
+    "id": "c18",
+    "name": "Poha Jalebi",
+    "region": "north",
+    "state": "Madhya Pradesh",
+    "description": "A popular Indore breakfast pairing of spiced flattened rice (poha) with crunchy, syrup-soaked jalebi for a sweet-savory start to the day.",
+    "image": "assets/PohaJalebi.png"
+  },
+  {
+    "id": "c19",
+    "name": "Bajra Khichdi",
+    "region": "north",
+    "state": "Haryana",
+    "description": "A wholesome one-pot meal of pearl millet and lentils, slow-cooked with ghee, popular in the rural farmlands of Haryana.",
+    "image": "assets/BajraKhichdi.png"
+  },
+  {
+    "id": "c20",
+    "name": "Siddu",
+    "region": "north",
+    "state": "Himachal Pradesh",
+    "description": "A steamed wheat bread stuffed with a sweet or savory poppy-seed and walnut filling, a winter staple of the Himachal hills.",
+    "image": "assets/Siddu.png"
+  },
+  {
+    "id": "c21",
+    "name": "Kerala Sadya",
+    "region": "south",
+    "state": "Kerala",
+    "description": "A grand vegetarian feast served on a banana leaf, featuring rice with a variety of curries, pickles, and payasam (sweet pudding).",
+    "image": "assets/KeralaSadya.png"
+  },
+  {
+    "id": "c22",
+    "name": "Andhra Chicken Curry",
+    "region": "south",
+    "state": "Andhra Pradesh",
+    "description": "A fiery, tangy chicken curry loaded with red chilies and tamarind, showcasing the bold, spice-forward flavors of Andhra cooking.",
+    "image": "assets/AndhraChickenCurry.png"
+  },
+  {
+    "id": "c23",
+    "name": "Pakhala Bhata",
+    "region": "east",
+    "state": "Odisha",
+    "description": "Fermented rice soaked in water overnight, served cold with fried vegetables and yogurt — a refreshing summer staple of Odisha.",
+    "image": "assets/PakhalaBhata.png"
+  },
+  {
+    "id": "c24",
+    "name": "Dhuska",
+    "region": "east",
+    "state": "Jharkhand",
+    "description": "Deep-fried rice and lentil pancakes, crispy outside and soft inside, usually served with spicy chickpea curry or curd.",
+    "image": "assets/Dhuska.png"
+  },
+  {
+    "id": "c25",
+    "name": "Assamese Khar",
+    "region": "northeast",
+    "state": "Assam",
+    "description": "A one-of-a-kind alkaline dish made by filtering water through sun-dried banana peel ash, cooked with raw papaya and lentils.",
+    "image": "assets/AssameseKhar.png"
   }
 ];
 
