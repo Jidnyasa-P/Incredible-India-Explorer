@@ -572,6 +572,8 @@ const festivalsData = [
   {
     "name": "Diwali",
     "subtitle": "The Festival of Lights",
+    "period": "October – November",
+    "location": "Pan-India",
     "description": "Diwali celebrates the victory of light over darkness and good over evil. Homes are decorated with clay lamps (diyas), intricate sand drawings (rangoli), and fireworks illuminate the night sky across India.",
     "image": "assets/diwali.png",
     "story": "According to ancient epics, Diwali marks the day Lord Rama, along with Sita and Lakshmana, returned to their kingdom of Ayodhya after 14 years of exile and defeating the demon king Ravana. The citizens of Ayodhya illuminated the entire city with clay oil lamps (diyas) to guide them home in the dark moonless night. Spirited celebrations also honor Goddess Lakshmi, the deity of wealth and prosperity, welcoming her blessings into clean, illuminated households."
@@ -579,6 +581,8 @@ const festivalsData = [
   {
     "name": "Holi",
     "subtitle": "The Festival of Colors",
+    "period": "March",
+    "location": "Pan-India, especially Mathura & Vrindavan",
     "description": "Holi marks the arrival of spring and victory of devotion. People of all backgrounds gather in the streets to throw vibrant dry colors (gulal) and splash colored water on each other, singing and sharing sweets.",
     "image": "assets/holi.png",
     "story": "Holi's origins lie in the legendary tale of young prince Prahlada, an ardent devotee of Lord Vishnu. Despite his demonic father King Hiranyakashipu's attempts to kill him, Prahlada survived a blazing fire unscathed due to his unwavering faith, while the king's sister Holika perished in the pyre (commemorated as 'Holika Dahan'). The next day, people celebrate the triumph of good over evil by splashing colors, symbolizing the colorful arrival of spring."
@@ -586,6 +590,8 @@ const festivalsData = [
   {
     "name": "Eid",
     "subtitle": "Festival of Gratitude & Giving",
+    "period": "Varies (Islamic lunar calendar)",
+    "location": "Pan-India",
     "description": "Eid-ul-Fitr marks the completion of the fasting month of Ramadan. Muslims wear new clothes, offer special prayers, exchange gifts, and prepare 'Sheer Khurma' (sweet vermicelli pudding) for family and guests.",
     "image": "assets/eid.png",
     "story": "Eid-ul-Fitr, meaning the 'Festival of Breaking the Fast', marks the joyous conclusion of Ramadan, the holy month of fasting, prayer, and self-reflection. It is a day of deep spiritual gratitude to Allah for strength and self-control. Muslims celebrate by wearing new clothes, visiting family, sharing a sweet feast of vermicelli pudding (Sheer Khurma), and contributing charity (Zakat-al-Fitr) to ensure the poor can celebrate too."
@@ -593,6 +599,8 @@ const festivalsData = [
   {
     "name": "Pongal",
     "subtitle": "The Harvest Celebration",
+    "period": "January",
+    "location": "Tamil Nadu",
     "description": "A major harvest festival of South India, especially Tamil Nadu. Spanning four days, it thanks the Sun God and cattle. Traditional sweet rice pudding is boiled in clay pots until it overflows, symbolizing abundance.",
     "image": "assets/pongal.png",
     "story": "Pongal is a four-day thanksgiving festival celebrated in Tamil Nadu, dedicated to thanking Surya (the Sun God) and cattle for a bountiful harvest. On the main day, freshly harvested rice is boiled with milk and jaggery in a decorated clay pot. As the milk boils over, families shout 'Pongalo Pongal!' (May rice boil over!), symbolizing abundance, and share the sweet pudding with family and domestic animals."
@@ -600,6 +608,8 @@ const festivalsData = [
   {
     "name": "Navratri",
     "subtitle": "The Nine Nights of Dance",
+    "period": "September – October",
+    "location": "Gujarat & West Bengal",
     "description": "Dedicated to Goddess Durga, this festival is celebrated with intense energy. In Gujarat, people dance 'Garba' and 'Dandiya' all night, while in West Bengal, 'Durga Puja' features massive, beautifully decorated temple setups (pandals).",
     "image": "assets/navratri.png",
     "story": "Navratri, meaning 'Nine Nights', honors the supreme feminine energy, Goddess Durga. The celebration commemorates her epic nine-day battle and ultimate triumph over the shape-shifting buffalo demon Mahishasura, who had terrorized the cosmos. Dancers wear gorgeous traditional dresses and perform Garba and Dandiya Raas in circular choreographies, representing the cyclical nature of time and life."
@@ -607,9 +617,65 @@ const festivalsData = [
   {
     "name": "Bihu",
     "subtitle": "The Spring Harvest of Assam",
+    "period": "April, October & January",
+    "location": "Assam",
     "description": "Bihu represents a set of three festivals in Assam. Rongali Bihu in April marks the Assamese New Year, celebrated with joyful traditional dances, folk songs using the dhol, and delicious coconut cakes.",
     "image": "assets/bihu.png",
     "story": "Bihu consists of three distinct agricultural festivals in Assam: Bohag Bihu (in April, celebrating the spring harvest and Assamese New Year), Kongali Bihu (in October, praying for crop protection), and Bhogali Bihu (in January, marking the end of harvest with community feasts). Bohag Bihu is marked by energetic dances using traditional instruments like the dhol (drum) and pepa (horn flute), mirroring the joy of spring."
+  },
+  {
+    "name": "Onam",
+    "subtitle": "Kerala's Grand Harvest Homecoming",
+    "period": "August – September",
+    "location": "Kerala",
+    "description": "A ten-day harvest festival celebrating the mythical homecoming of King Mahabali. Homes are decorated with intricate flower carpets (Pookalam), and families gather for the elaborate 'Onasadya' feast served on banana leaves.",
+    "image": "assets/festival_default.png",
+    "story": "Onam commemorates the annual visit of the beloved King Mahabali, who was sent to the netherworld by Lord Vishnu (in his Vamana avatar) but was granted the boon of returning to Kerala once a year to see his people thriving. Families welcome him with vibrant floral Pookalam designs at their doorsteps, new clothes (Onakodi), boat races (Vallam Kali), and the grand Onasadya feast of over 25 dishes served on a banana leaf."
+  },
+  {
+    "name": "Baisakhi",
+    "subtitle": "Punjab's Harvest & New Year Festival",
+    "period": "April",
+    "location": "Punjab",
+    "description": "A vibrant harvest festival marking the Punjabi New Year and the formation of the Khalsa Panth. Fields of golden wheat are harvested amid energetic Bhangra and Gidda dances, and gurdwaras hold special processions.",
+    "image": "assets/festival_default.png",
+    "story": "Baisakhi holds dual significance for Punjab: it marks the ripening of the rabi wheat harvest, celebrated by farmers with joyous Bhangra dancing in the fields, and it commemorates the founding of the Khalsa Panth by Guru Gobind Singh in 1699. Sikhs visit gurdwaras for special prayers, and towns come alive with fairs, folk music, and community feasts (langar)."
+  },
+  {
+    "name": "Ganesh Chaturthi",
+    "subtitle": "Welcoming the Elephant God",
+    "period": "August – September",
+    "location": "Maharashtra",
+    "description": "A ten-day festival honoring Lord Ganesha, the remover of obstacles. Elaborately crafted clay idols are installed in homes and public pandals, worshipped with music and dance, then immersed in water in a grand procession.",
+    "image": "assets/festival_default.png",
+    "story": "Ganesh Chaturthi celebrates the birth of Lord Ganesha, son of Shiva and Parvati. Public celebrations were popularized by freedom fighter Bal Gangadhar Tilak in the late 19th century as a way to unite communities against colonial rule. Today, magnificently decorated idols are worshipped for up to ten days with devotional songs (aartis) before being carried in festive processions to rivers or the sea for 'Visarjan' (ceremonial immersion)."
+  },
+  {
+    "name": "Rath Yatra",
+    "subtitle": "The Grand Chariot Procession",
+    "period": "June – July",
+    "location": "Odisha",
+    "description": "One of the world's oldest and largest chariot processions, held in Puri. Massive, colorfully decorated wooden chariots carrying deities Jagannath, Balabhadra, and Subhadra are pulled through the streets by thousands of devotees.",
+    "image": "assets/festival_default.png",
+    "story": "Rath Yatra reenacts the annual journey of Lord Jagannath, along with his siblings Balabhadra and Subhadra, from the Jagannath Temple to the Gundicha Temple, symbolizing a visit to their aunt's home. Three towering, hand-built wooden chariots are pulled by ropes through Puri's Grand Road by tens of thousands of pilgrims, a tradition believed to date back over a thousand years and one from which the English word 'juggernaut' is derived."
+  },
+  {
+    "name": "Hornbill Festival",
+    "subtitle": "The Festival of Festivals",
+    "period": "December",
+    "location": "Nagaland",
+    "description": "A ten-day cultural extravaganza showcasing the traditions of Nagaland's 16 major tribes. Visitors experience traditional dances, indigenous games, handicrafts, and music, all set against the backdrop of Kisama Heritage Village.",
+    "image": "assets/festival_default.png",
+    "story": "Named after the revered hornbill bird, this festival was launched by the Nagaland government in 2000 to revive and protect the state's rich tribal heritage. Each of Nagaland's major tribes sets up a traditional 'morung' (hut) at Kisama Heritage Village, showcasing distinct customs, folk dances, and cuisines side by side, offering a rare, unified glimpse into the region's incredible cultural diversity."
+  },
+  {
+    "name": "Losar",
+    "subtitle": "The Tibetan Buddhist New Year",
+    "period": "February – March",
+    "location": "Sikkim & Ladakh",
+    "description": "The Tibetan Buddhist New Year, celebrated with monastery rituals, masked Cham dances, butter lamp offerings, and family feasts in the Himalayan regions of Sikkim and Ladakh.",
+    "image": "assets/festival_default.png",
+    "story": "Losar marks the start of the Tibetan lunar calendar and is celebrated with deep spiritual devotion across Himalayan Buddhist communities. Monasteries perform elaborate masked Cham dances to drive away negative energy from the previous year, homes are cleaned and decorated, and families gather to share 'Guthuk', a special noodle soup, while offering prayers for prosperity and peace in the year ahead."
   }
 ];
 

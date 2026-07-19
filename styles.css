@@ -955,6 +955,27 @@ button {
     box-shadow: 0 10px 25px rgba(255, 153, 51, 0.12);
 }
 
+.festival-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 10px;
+}
+
+.festival-meta-item {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.story-location {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: -12px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
 /* ==========================================================================
    CULTURE SLIDER SECTION
    ========================================================================== */
