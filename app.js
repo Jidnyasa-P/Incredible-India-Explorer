@@ -224,6 +224,9 @@ document.addEventListener('app:route-changed', () => {
         console.log('✅ Monuments page loaded successfully');
     } else if (pathname.includes('hidden-gems.html')) {
         console.log('✅ Hidden Gems page loaded successfully');
+    } else if (pathname.includes('national-awards.html')) {
+        console.log('✅ National Awards Explorer page loaded successfully');
+        initScrollEffects();
     } else if (pathname.includes('railways.html')) {
         console.log('✅ Railways Explorer page loaded successfully');
     } else if (pathname.includes('adventure.html')) {
