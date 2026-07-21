@@ -48,12 +48,14 @@ export class AudioGuideSystem {
     utterance.lang = lang;
 
     utterance.onstart = () => {
+      if (this.currentUtterance !== utterance) return;
       this.isPlaying = true;
       this.isPaused = false;
       this.notifySubscribers({ status: 'playing', text, lang });
     };
 
     utterance.onend = () => {
+      if (this.currentUtterance !== utterance) return;
       this.isPlaying = false;
       this.isPaused = false;
       this.currentUtterance = null;
@@ -61,6 +63,7 @@ export class AudioGuideSystem {
     };
 
     utterance.onerror = (err) => {
+      if (this.currentUtterance !== utterance) return;
       this.isPlaying = false;
       this.isPaused = false;
       this.currentUtterance = null;
