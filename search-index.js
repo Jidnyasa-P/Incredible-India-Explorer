@@ -855,5 +855,12 @@ window.indiaSearchIndex = [
     category: "Cultural DNA",
     description: "Trace how South Indian stone architecture hosted classical Carnatic vocals, geometry of Bharatanatyam, and textile weaving patterns.",
     url: "cultural-dna.html?preset=templearts"
+  },
+  // --- Fort Architecture Comparison ---
+  {
+    title: "Indian Fort Architecture Comparison Explorer",
+    category: "Architecture & Heritage",
+    description: "Compare Rajput, Mughal, Maratha, and European colonial fort architecture side-by-side.",
+    url: "fort-architecture.html"
   }
 ];
