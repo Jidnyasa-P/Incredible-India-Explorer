@@ -893,23 +893,41 @@ window.indiaSearchIndex = [
     description: "Compare historical and present-day images of India's iconic heritage sites with an interactive before/after slider.",
     url: "then-vs-now.html"
   },
-  // --- Indian Caves Art Explorer ---
+  // --- National Parks Timeline ---
   {
-    title: "Indian Caves Art Explorer",
-    category: "Culture & Philosophy",
-    description: "Discover the spectacular heritage of ancient cave paintings, frescos, rock-cut murals, and stone sculptures across India.",
-    url: "cave-art.html"
+    title: "India's National Parks Timeline",
+    category: "Nature & Wildlife",
+    description: "Interactive visual timeline showing when India's national parks and wildlife sanctuaries were established.",
+    url: "national-parks-timeline.html"
   },
   {
-    title: "Ajanta Cave Paintings & Murals",
-    category: "Caves Art Explorer",
-    description: "Explore the Padmapani and Vajrapani frescoes, representing the zenith of ancient Buddhist rock art.",
-    url: "cave-art.html?search=Ajanta"
+    title: "Jim Corbett National Park Timeline",
+    category: "National Parks Timeline",
+    description: "Established in 1936 as Hailey National Park, India's oldest protected area.",
+    url: "national-parks-timeline.html?search=Corbett"
   },
   {
-    title: "Ellora Kailasa Temple Sculptures",
-    category: "Caves Art Explorer",
-    description: "Marvel at the monolithic rock-cut sculptures like Ravana Shaking Kailasa in Cave 16.",
-    url: "cave-art.html?search=Ellora"
+    title: "Kaziranga National Park Timeline",
+    category: "National Parks Timeline",
+    description: "Formally established as a national park in 1974, home to the one-horned rhinoceros.",
+    url: "national-parks-timeline.html?search=Kaziranga"
+  // --- Indian Climate Zones Explorer ---
+  {
+    title: "Indian Climate Zones Explorer",
+    category: "Nature & Geography",
+    description: "Interactive visual explorer explaining India's climatic zones, rainfall distribution, and seasonal patterns.",
+    url: "climate-zones.html"
+  },
+  {
+    title: "Tropical Wet / Monsoon Rainforest",
+    category: "Climate Zone",
+    description: "Explore the tropical wet zones of Kerala, Coastal Karnataka, and Andaman Islands with high rainfall and lush vegetation.",
+    url: "climate-zones.html?zone=monsoon"
+  },
+  {
+    title: "Arid / Desert Climate (Thar)",
+    category: "Climate Zone",
+    description: "Explore the dry, arid conditions of Western Rajasthan and Kutch with extreme temperatures and low rainfall.",
+    url: "climate-zones.html?zone=arid"
   }
 ];
