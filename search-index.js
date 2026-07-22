@@ -893,6 +893,18 @@ window.indiaSearchIndex = [
     description: "Compare historical and present-day images of India's iconic heritage sites with an interactive before/after slider.",
     url: "then-vs-now.html"
   },
+  // --- Border Stories Explorer ---
+  {
+    title: "Border Stories Explorer",
+    category: "Culture & Philosophy",
+    description: "Explore shared cultures, dialects, fusion cuisines, border markets (haats), and river boundaries along inter-state borders of India.",
+    url: "border-stories.html"
+  },
+  {
+    title: "Inter-State Border Haats & Culture Map",
+    category: "Border Stories Explorer",
+    description: "Interactive map detailing shared traditions and river boundaries connecting neighboring Indian states.",
+    url: "border-stories.html"
   // --- State Achievement Timeline ---
   {
     title: "State Achievement Timeline",
