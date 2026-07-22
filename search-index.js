@@ -886,5 +886,18 @@ window.indiaSearchIndex = [
     category: "Heritage & History",
     description: "Compare historical and present-day images of India's iconic heritage sites with an interactive before/after slider.",
     url: "then-vs-now.html"
+  },
+  // --- State Cultural Footprint ---
+  {
+    title: "State Cultural Footprint Explorer",
+    category: "Culture & Philosophy",
+    description: "Interactive network visualization showing cross-state cultural influences across migration, cuisine, music, language, architecture, cinema, textiles, and festivals.",
+    url: "cultural-footprint.html"
+  },
+  {
+    title: "Inter-State Cultural Influences Map",
+    category: "State Cultural Footprint",
+    description: "Visualize outgoing cultural footprints and incoming cultural influences for each Indian state.",
+    url: "cultural-footprint.html"
   }
 ];
