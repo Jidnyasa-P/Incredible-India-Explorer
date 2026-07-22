@@ -819,6 +819,7 @@ window.indiaSearchIndex = [
     category: "State Borders Challenge",
     description: "Test your geographic and cultural trivia knowledge of India's states to unlock border crossings.",
     url: "state-challenge.html?mode=trivia"
+  },
   // --- Ancient Trade Routes ---
   {
     title: "Ancient Indian Trade Network",
@@ -837,6 +838,7 @@ window.indiaSearchIndex = [
     category: "Ancient Trade Ports",
     description: "Oldest known artificial tidal dockyard in the world from the Indus Valley Civilisation.",
     url: "trade-routes.html?port=lothal"
+  },
   // --- Cultural DNA ---
   {
     title: "Indian Cultural DNA Explorer",
@@ -862,29 +864,52 @@ window.indiaSearchIndex = [
     category: "Architecture & Heritage",
     description: "Compare Rajput, Mughal, Maratha, and European colonial fort architecture side-by-side.",
     url: "fort-architecture.html"
+  },
   // --- Volcanoes & Geological Formations ---
   {
     title: "Volcanoes & Geological Formations Explorer",
     category: "Nature & Geography",
     description: "Explore Barren Island volcano, Lonar crater, Deccan Traps, and India's most dramatic geological formations.",
     url: "volcanoes-geology.html"
+  },
   // --- Photography Locations Explorer ---
   {
     title: "Photography Locations Explorer",
     category: "Travel & Exploration",
     description: "Discover India's best photography spots — sunrise viewpoints, golden hour destinations, and seasonal landscape locations.",
     url: "photography-locations.html"
+  },
   // --- Heritage Threat Monitor ---
   {
     title: "Heritage Threat Monitor",
     category: "Heritage & History",
     description: "Track endangered Indian heritage sites threatened by pollution, climate change, tourism pressure, and urban encroachment.",
     url: "heritage-threats.html"
+  },
   // --- Then vs Now Heritage Comparison ---
   {
     title: "Then vs Now Heritage Comparison Explorer",
     category: "Heritage & History",
     description: "Compare historical and present-day images of India's iconic heritage sites with an interactive before/after slider.",
     url: "then-vs-now.html"
+  },
+  // --- National Parks Timeline ---
+  {
+    title: "India's National Parks Timeline",
+    category: "Nature & Wildlife",
+    description: "Interactive visual timeline showing when India's national parks and wildlife sanctuaries were established.",
+    url: "national-parks-timeline.html"
+  },
+  {
+    title: "Jim Corbett National Park Timeline",
+    category: "National Parks Timeline",
+    description: "Established in 1936 as Hailey National Park, India's oldest protected area.",
+    url: "national-parks-timeline.html?search=Corbett"
+  },
+  {
+    title: "Kaziranga National Park Timeline",
+    category: "National Parks Timeline",
+    description: "Formally established as a national park in 1974, home to the one-horned rhinoceros.",
+    url: "national-parks-timeline.html?search=Kaziranga"
   }
 ];
