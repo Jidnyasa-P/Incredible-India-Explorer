@@ -855,5 +855,12 @@ window.indiaSearchIndex = [
     category: "Cultural DNA",
     description: "Trace how South Indian stone architecture hosted classical Carnatic vocals, geometry of Bharatanatyam, and textile weaving patterns.",
     url: "cultural-dna.html?preset=templearts"
+  },
+  // --- Volcanoes & Geological Formations ---
+  {
+    title: "Volcanoes & Geological Formations Explorer",
+    category: "Nature & Geography",
+    description: "Explore Barren Island volcano, Lonar crater, Deccan Traps, and India's most dramatic geological formations.",
+    url: "volcanoes-geology.html"
   }
 ];
