@@ -14,6 +14,7 @@ const headlines = [
 let currentOrder = [];
 let score = 0;
 let draggedIndex = null;
+let hasScored = false;
 
 const timelineEl = document.getElementById("timeline");
 const shuffleBtn = document.getElementById("shuffleBtn");
@@ -69,8 +70,10 @@ function handleDrop(e) {
 
   const temp = currentOrder[draggedIndex];
   currentOrder.splice(draggedIndex, 1);
-  currentOrder.splice(targetIndex, 0, temp);
+  const adjustedIndex = draggedIndex < targetIndex ? targetIndex - 1 : targetIndex;
+  currentOrder.splice(adjustedIndex, 0, temp);
 
+  hasScored = false;
   renderTimeline();
 }
 
@@ -95,7 +98,10 @@ function checkOrder() {
   });
 
   if (correctCount === currentOrder.length) {
-    score += 10;
+    if (!hasScored) {
+      score += 10;
+      hasScored = true;
+    }
     resultMessage.textContent = "🎉 Perfect! All headlines are in correct chronological order!";
     resultMessage.className = "result-message success";
   } else {
@@ -108,6 +114,7 @@ function checkOrder() {
 
 shuffleBtn.addEventListener("click", () => {
   currentOrder = shuffleArray(headlines);
+  hasScored = false;
   resultMessage.textContent = "";
   resultMessage.className = "result-message";
   renderTimeline();
